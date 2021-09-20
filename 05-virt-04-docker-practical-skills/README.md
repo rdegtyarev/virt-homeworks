@@ -51,6 +51,20 @@ CMD ["Hey, netology”]
 - Скриншоты логов запущенных вами контейнеров (из командной строки)
 - Скриншоты веб-интерфейса Jenkins запущенных вами контейнеров (достаточно 1 скриншота на контейнер)
 - Ссылки на образы в вашем хранилище docker-hub
+### Решение  
+Dockerfile
+```dockerfile
+FROM archlinux
+RUN yes | pacman -Sy ponysay
+ENTRYPOINT ["/usr/bin/ponysay"]
+CMD ["Hey, netology"]
+```  
+Результат выполнения:  
+
+
+Обубликован в dockerhub
+
+>docker run rdegtyarev/netology-hw-5.4.1
 
 ## Задача 3 
 
