@@ -34,7 +34,7 @@ ENTRYPOINT ["/usr/bin/ponysay"]
 CMD ["Hey, netology"]
 ```  
 Результат выполнения:  
-
+![Результат выполнения](https://github.com/rdegtyarev/virt-homeworks/blob/master/05-virt-04-docker-practical-skills/task-1/ponysay.png)
 
 Обубликован в dockerhub
 
