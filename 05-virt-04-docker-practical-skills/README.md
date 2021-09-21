@@ -71,15 +71,59 @@ CMD ["Hey, netology"]
 
 ### Решение  
 
-Dockerfile 1
+#### Dockerfile 1
+Наполнения 2х Dockerfile из задания  
+
 ```dockerfile
+FROM amazoncorretto
 
-```  
+ARG http_port=8080
+ARG agent_port=50000
 
-Dockerfile 2
-```dockerfile
+RUN yum -y update && yum install -y wget
+RUN wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo \
+    && rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io.key \
+    && amazon-linux-extras install -y epel java-openjdk11 \
+    && yum install -y jenkins
 
+EXPOSE ${http_port}
+EXPOSE ${agent_port}
+
+CMD [ "java", "-jar",  "/usr/lib/jenkins/jenkins.war"]
 ```
+Скриншоты логов запущенных вами контейнеров (из командной строки)
+
+Скриншоты веб-интерфейса Jenkins запущенных вами контейнеров (достаточно 1 скриншота на контейнер)
+
+Ссылки на образы в вашем хранилище docker-hub 
+
+
+#### Dockerfile 2
+Наполнения 2х Dockerfile из задания  
+
+```dockerfile
+FROM ubuntu:latest
+
+RUN apt-get update && apt-get install -y wget gnupg2 openjdk-11-jdk && rm -rf /var/lib/apt/lists/*
+
+ARG http_port=8080
+ARG agent_port=50000
+
+RUN wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | apt-key add - \
+    && sh -c 'echo deb https://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list' \
+    && apt-get update && apt-get install -y jenkins
+
+EXPOSE ${http_port}
+
+EXPOSE ${agent_port}
+
+ENTRYPOINT service jenkins start && bash
+```
+Скриншоты логов запущенных вами контейнеров (из командной строки)
+
+Скриншоты веб-интерфейса Jenkins запущенных вами контейнеров (достаточно 1 скриншота на контейнер)
+
+Ссылки на образы в вашем хранилище docker-hub
 
 ## Задача 3 
 

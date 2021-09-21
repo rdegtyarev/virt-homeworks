@@ -1,8 +1,15 @@
 FROM amazoncorretto
 
-RUN apt-get update \
-    && apt-get install -y wget \
-    && apt-get install -y gnupg2
-RUN wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | apt-key add -
-RUN sh -c 'echo deb https://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
-RUN apt-get update && apt-get install -y jenkins
+ARG http_port=8080
+ARG agent_port=50000
+
+RUN yum -y update && yum install -y wget
+RUN wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo \
+    && rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io.key \
+    && amazon-linux-extras install -y epel java-openjdk11 \
+    && yum install -y jenkins
+
+EXPOSE ${http_port}
+EXPOSE ${agent_port}
+
+CMD [ "java", "-jar",  "/usr/lib/jenkins/jenkins.war"]
