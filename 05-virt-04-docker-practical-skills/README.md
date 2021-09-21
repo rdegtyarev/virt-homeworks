@@ -72,7 +72,7 @@ CMD ["Hey, netology"]
 ### Решение  
 
 #### Dockerfile 1
-Наполнения 2х Dockerfile из задания  
+- Наполнения 2х Dockerfile из задания  
 
 ```dockerfile
 FROM amazoncorretto
@@ -91,12 +91,14 @@ EXPOSE ${agent_port}
 
 CMD [ "java", "-jar",  "/usr/lib/jenkins/jenkins.war"]
 ```
-Скриншоты логов запущенных вами контейнеров (из командной строки)
+- Скриншоты логов запущенных вами контейнеров (из командной строки)
 
-Скриншоты веб-интерфейса Jenkins запущенных вами контейнеров (достаточно 1 скриншота на контейнер)
+- Скриншоты веб-интерфейса Jenkins запущенных вами контейнеров (достаточно 1 скриншота на контейнер)
 
-Ссылки на образы в вашем хранилище docker-hub 
-
+- Ссылки на образы в вашем хранилище docker-hub 
+```bash 
+docker pull rdegtyarev/netology-hw-5.4.2:ver1
+```
 
 #### Dockerfile 2
 Наполнения 2х Dockerfile из задания  
@@ -123,7 +125,10 @@ ENTRYPOINT service jenkins start && bash
 
 Скриншоты веб-интерфейса Jenkins запущенных вами контейнеров (достаточно 1 скриншота на контейнер)
 
-Ссылки на образы в вашем хранилище docker-hub
+Ссылки на образы в вашем хранилище docker-hub  
+```bash 
+docker pull rdegtyarev/netology-hw-5.4.2:ver2
+```
 
 ## Задача 3 
 
