@@ -92,9 +92,9 @@ EXPOSE ${agent_port}
 CMD [ "java", "-jar",  "/usr/lib/jenkins/jenkins.war"]
 ```
 - Скриншоты логов запущенных вами контейнеров (из командной строки)
-
+![Результат выполнения](https://github.com/rdegtyarev/virt-homeworks/blob/master/05-virt-04-docker-practical-skills/task-2/docker1/logs.png)
 - Скриншоты веб-интерфейса Jenkins запущенных вами контейнеров (достаточно 1 скриншота на контейнер)
-
+![Результат выполнения](https://github.com/rdegtyarev/virt-homeworks/blob/master/05-virt-04-docker-practical-skills/task-2/docker1/web.png)
 - Ссылки на образы в вашем хранилище docker-hub 
 ```bash 
 docker pull rdegtyarev/netology-hw-5.4.2:ver1
@@ -121,11 +121,11 @@ EXPOSE ${agent_port}
 
 ENTRYPOINT service jenkins start && bash
 ```
-Скриншоты логов запущенных вами контейнеров (из командной строки)
-
-Скриншоты веб-интерфейса Jenkins запущенных вами контейнеров (достаточно 1 скриншота на контейнер)
-
-Ссылки на образы в вашем хранилище docker-hub  
+- Скриншоты логов запущенных вами контейнеров (из командной строки)
+![Результат выполнения](https://github.com/rdegtyarev/virt-homeworks/blob/master/05-virt-04-docker-practical-skills/task-2/docker2/logs.png)
+- Скриншоты веб-интерфейса Jenkins запущенных вами контейнеров (достаточно 1 скриншота на контейнер)
+![Результат выполнения](https://github.com/rdegtyarev/virt-homeworks/blob/master/05-virt-04-docker-practical-skills/task-2/docker2/web.png)
+- Ссылки на образы в вашем хранилище docker-hub 
 ```bash 
 docker pull rdegtyarev/netology-hw-5.4.2:ver2
 ```
