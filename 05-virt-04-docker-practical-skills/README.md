@@ -169,9 +169,11 @@ RUN npm install
 ENTRYPOINT npm start --host 0.0.0.0
 ```
 
-- Скриншот вывода вызова команды списка docker сетей (docker network cli)
+- Скриншот вывода вызова команды списка docker сетей (docker network cli) 
+Создана сеть netotoly-hw-5.4.2, добавлены контейнеры app (с node), и client (ubuntu).  
 ![Результат выполнения](https://github.com/rdegtyarev/virt-homeworks/blob/master/05-virt-04-docker-practical-skills/task-3/docker1/network.png)
-- Скриншот вызова утилиты curl с успешным ответом
+- Скриншот вызова утилиты curl с успешным ответом  
+В сети резолвится по имени контейнера (app), делаем curl по имени.  
 ![Результат выполнения](https://github.com/rdegtyarev/virt-homeworks/blob/master/05-virt-04-docker-practical-skills/task-3/docker1/curl.png)
 
 ---
