@@ -101,7 +101,7 @@ docker pull rdegtyarev/netology-hw-5.4.2:ver1
 ```
 
 #### Dockerfile 2
-Наполнения 2х Dockerfile из задания  
+- Наполнения 2х Dockerfile из задания  
 
 ```dockerfile
 FROM ubuntu:latest
@@ -152,6 +152,27 @@ docker pull rdegtyarev/netology-hw-5.4.2:ver2
 - Наполнение Dockerfile с npm приложением
 - Скриншот вывода вызова команды списка docker сетей (docker network cli)
 - Скриншот вызова утилиты curl с успешным ответом
+
+
+### Решение  
+- Наполнение Dockerfile с npm приложением
+```docker
+FROM node
+WORKDIR /var/www
+RUN git clone https://github.com/simplicitesoftware/nodejs-demo.git
+
+WORKDIR /var/www/nodejs-demo
+EXPOSE 3000
+
+RUN npm install
+
+ENTRYPOINT npm start --host 0.0.0.0
+```
+
+- Скриншот вывода вызова команды списка docker сетей (docker network cli)
+
+- Скриншот вызова утилиты curl с успешным ответом
+
 
 ---
 
