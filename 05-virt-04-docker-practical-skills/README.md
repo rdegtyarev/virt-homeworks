@@ -170,14 +170,8 @@ ENTRYPOINT npm start --host 0.0.0.0
 ```
 
 - Скриншот вывода вызова команды списка docker сетей (docker network cli)
-
+![Результат выполнения](https://github.com/rdegtyarev/virt-homeworks/blob/master/05-virt-04-docker-practical-skills/task-3/docker1/network.png)
 - Скриншот вызова утилиты curl с успешным ответом
-
-
----
-
-### Как cдавать задание
-
-Выполненное домашнее задание пришлите ссылкой на .md-файл в вашем репозитории.
+![Результат выполнения](https://github.com/rdegtyarev/virt-homeworks/blob/master/05-virt-04-docker-practical-skills/task-3/docker1/curl.png)
 
 ---
