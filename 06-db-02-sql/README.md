@@ -58,23 +58,102 @@ services:
 - SQL-запрос для выдачи списка пользователей с правами над таблицами test_db
 - список пользователей с правами над таблицами test_db
 
-### Решение
+### Решение  
+
+Формируем скрипт (положил в отдельный volume '/homework')
 ```sql
+CREATE USER "test-admin-user" WITH encrypted password 'adminpassword';
+
+CREATE DATABASE test_db WITH OWNER = "test-admin-user" ENCODING = 'UTF8';
+
+\c test_db 
+
 CREATE TABLE orders (
-	id serial NOT NULL,
-	наименование varchar(255) NULL,
-	цена integer null,
+	"id" serial NOT NULL,
+	"наименование" varchar(255) NULL,
+	"цена" integer null,
 	PRIMARY KEY (id)
 );
 
 CREATE TABLE clients (
-	id serial NOT NULL,
-	фамилия varchar NULL,
+	"id" serial NOT NULL,
+	"фамилия" varchar NULL,
 	"страна проживания" varchar NULL,
-	CONSTRAINT заказ FOREIGN KEY (id) REFERENCES orders(id)
+	CONSTRAINT "заказ" FOREIGN KEY (id) REFERENCES orders(id)
 );
 CREATE INDEX страна_проживания_idx ON clients ("страна проживания");
 ```
+Выполняем скрипт: 
+
+```bash
+docker-compose exec db psql -U postgres -f /homework/task2.sql
+```
+
+Приведите:
+- итоговый список БД после выполнения пунктов выше
+```bash
+docker-compose exec db psql -U postgres -l
+
+                                    List of databases
+   Name    |      Owner      | Encoding |  Collate   |   Ctype    |   Access privileges   
+-----------+-----------------+----------+------------+------------+-----------------------
+ postgres  | postgres        | UTF8     | en_US.utf8 | en_US.utf8 | 
+ template0 | postgres        | UTF8     | en_US.utf8 | en_US.utf8 | =c/postgres          +
+           |                 |          |            |            | postgres=CTc/postgres
+ template1 | postgres        | UTF8     | en_US.utf8 | en_US.utf8 | =c/postgres          +
+           |                 |          |            |            | postgres=CTc/postgres
+ test_db   | test-admin-user | UTF8     | en_US.utf8 | en_US.utf8 | 
+(4 rows)
+```
+- описание таблиц (describe)
+Скрипт (~/postgre/homework/task2.1.sql)
+```sql
+\c test_db 
+
+SELECT 
+   table_catalog,
+   table_name, 
+   column_name, 
+   data_type 
+FROM 
+   information_schema.columns
+WHERE 
+   table_name = 'orders';
+
+SELECT 
+   table_catalog,
+   table_name, 
+   column_name, 
+   data_type 
+FROM 
+   information_schema.columns
+WHERE 
+   table_name = 'clients';
+```
+Запускаем:
+```bash
+docker-compose exec db psql -U postgres -f /homework/task2.1.sql
+
+You are now connected to database "test_db" as user "postgres".
+ table_catalog | table_name | column_name  |     data_type     
+---------------+------------+--------------+-------------------
+ test_db       | orders     | id           | integer
+ test_db       | orders     | наименование | character varying
+ test_db       | orders     | цена         | integer
+(3 rows)
+
+ table_catalog | table_name |    column_name    |     data_type     
+---------------+------------+-------------------+-------------------
+ test_db       | clients    | id                | integer
+ test_db       | clients    | фамилия           | character varying
+ test_db       | clients    | страна проживания | character varying
+(3 rows)
+```
+
+
+- SQL-запрос для выдачи списка пользователей с правами над таблицами test_db
+
+- список пользователей с правами над таблицами test_db
 
 ---
 

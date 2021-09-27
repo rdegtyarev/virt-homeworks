@@ -4,11 +4,15 @@ services:
     image: postgres:12
     restart: always
     volumes:
-      - ./data:/var/lib/postgresql
+      - ./data:/var/lib/postgresql/data/
       - ./backup:/backup
+      - ./homework:/homework
     environment:
-      - POSTGRES_DB=test_db
-      - POSTGRES_USER=test-admin-user
       - POSTGRES_PASSWORD=password
     ports:
       - 5432:5432
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
