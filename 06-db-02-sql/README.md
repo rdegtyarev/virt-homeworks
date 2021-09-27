@@ -10,7 +10,27 @@
 Используя docker поднимите инстанс PostgreSQL (версию 12) c 2 volume, 
 в который будут складываться данные БД и бэкапы.
 
-Приведите получившуюся команду или docker-compose манифест.
+Приведите получившуюся команду или docker-compose манифест.  
+
+### Решение
+```yaml
+version: '3.2'
+services:
+  db:
+    image: postgres:12
+    restart: always
+    volumes:
+      - ./data:/var/lib/postgresql
+      - ./backup:/backup
+    environment:
+      - POSTGRES_DB=my_db
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=password
+    ports:
+      - 5432:5432
+```
+
+---
 
 ## Задача 2
 
@@ -104,11 +124,5 @@
 Восстановите БД test_db в новом контейнере.
 
 Приведите список операций, который вы применяли для бэкапа данных и восстановления. 
-
----
-
-### Как cдавать задание
-
-Выполненное домашнее задание пришлите ссылкой на .md-файл в вашем репозитории.
 
 ---
