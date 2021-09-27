@@ -23,8 +23,8 @@ services:
       - ./data:/var/lib/postgresql
       - ./backup:/backup
     environment:
-      - POSTGRES_DB=my_db
-      - POSTGRES_USER=admin
+      - POSTGRES_DB=test_db
+      - POSTGRES_USER=test-admin-user
       - POSTGRES_PASSWORD=password
     ports:
       - 5432:5432
@@ -57,6 +57,26 @@ services:
 - описание таблиц (describe)
 - SQL-запрос для выдачи списка пользователей с правами над таблицами test_db
 - список пользователей с правами над таблицами test_db
+
+### Решение
+```sql
+CREATE TABLE orders (
+	id serial NOT NULL,
+	наименование varchar(255) NULL,
+	цена integer null,
+	PRIMARY KEY (id)
+);
+
+CREATE TABLE clients (
+	id serial NOT NULL,
+	фамилия varchar NULL,
+	"страна проживания" varchar NULL,
+	CONSTRAINT заказ FOREIGN KEY (id) REFERENCES orders(id)
+);
+CREATE INDEX страна_проживания_idx ON clients ("страна проживания");
+```
+
+---
 
 ## Задача 3
 
