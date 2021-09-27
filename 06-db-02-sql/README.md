@@ -105,7 +105,9 @@ docker-compose exec db psql -U postgres -l
  test_db   | test-admin-user | UTF8     | en_US.utf8 | en_US.utf8 | 
 (4 rows)
 ```
-- описание таблиц (describe)
+- описание таблиц (describe)  
+
+Можно использовать information_schema
 Скрипт (~/postgre/homework/task2.1.sql)
 ```sql
 \c test_db 
