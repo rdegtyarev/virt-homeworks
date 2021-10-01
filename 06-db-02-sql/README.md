@@ -70,7 +70,9 @@ CREATE USER "test-admin-user" WITH encrypted password 'adminpassword';
 
 CREATE DATABASE test_db WITH OWNER = "test-admin-user" ENCODING = 'UTF8';
 
-\c test_db 
+GRANT SELECT, INSERT, UPDATE, DELETE ON DATABASE test_db TO "test-admin-user";
+
+\c test_db test-admin-user
 
 CREATE TABLE orders (
 	"id" serial NOT NULL,
@@ -86,13 +88,14 @@ CREATE TABLE clients (
 	CONSTRAINT "заказ" FOREIGN KEY (id) REFERENCES orders(id)
 );
 CREATE INDEX страна_проживания_idx ON clients ("страна проживания");
+
 ```
 Выполняем скрипт: 
 
 ```bash
 docker-compose exec db psql -U postgres -f /homework/task2.sql
 ```
-#### Задачи
+#### Ответы
 Приведите:
 - итоговый список БД после выполнения пунктов выше
 ```bash
@@ -111,49 +114,31 @@ docker-compose exec db psql -U postgres -l
 ```
 - описание таблиц (describe)  
 
-Можно использовать information_schema
-Скрипт (~/postgre/homework/task2.1.sql)
-```sql
-\c test_db 
-
-SELECT 
-   table_catalog,
-   table_name, 
-   column_name, 
-   data_type 
-FROM 
-   information_schema.columns
-WHERE 
-   table_name = 'orders';
-
-SELECT 
-   table_catalog,
-   table_name, 
-   column_name, 
-   data_type 
-FROM 
-   information_schema.columns
-WHERE 
-   table_name = 'clients';
-```
-Запускаем:
 ```bash
-docker-compose exec db psql -U postgres -f /homework/task2.1.sql
+docker-compose exec db psql -U test-admin-user test_db -c "\d+ orders" -c "\d+ clients"
+                                                           Table "public.orders"
+    Column    |          Type          | Collation | Nullable |              Default               | Storage  | Stats target | Description 
+--------------+------------------------+-----------+----------+------------------------------------+----------+--------------+-------------
+ id           | integer                |           | not null | nextval('orders_id_seq'::regclass) | plain    |              | 
+ наименование | character varying(255) |           |          |                                    | extended |              | 
+ цена         | integer                |           |          |                                    | plain    |              | 
+Indexes:
+    "orders_pkey" PRIMARY KEY, btree (id)
+Referenced by:
+    TABLE "clients" CONSTRAINT "заказ" FOREIGN KEY (id) REFERENCES orders(id)
+Access method: heap
 
-You are now connected to database "test_db" as user "postgres".
- table_catalog | table_name | column_name  |     data_type     
----------------+------------+--------------+-------------------
- test_db       | orders     | id           | integer
- test_db       | orders     | наименование | character varying
- test_db       | orders     | цена         | integer
-(3 rows)
-
- table_catalog | table_name |    column_name    |     data_type     
----------------+------------+-------------------+-------------------
- test_db       | clients    | id                | integer
- test_db       | clients    | фамилия           | character varying
- test_db       | clients    | страна проживания | character varying
-(3 rows)
+                                                           Table "public.clients"
+      Column       |       Type        | Collation | Nullable |               Default               | Storage  | Stats target | Description 
+-------------------+-------------------+-----------+----------+-------------------------------------+----------+--------------+-------------
+ id                | integer           |           | not null | nextval('clients_id_seq'::regclass) | plain    |              | 
+ фамилия           | character varying |           |          |                                     | extended |              | 
+ страна проживания | character varying |           |          |                                     | extended |              | 
+Indexes:
+    "страна_проживания_idx" btree ("страна проживания")
+Foreign-key constraints:
+    "заказ" FOREIGN KEY (id) REFERENCES orders(id)
+Access method: heap
 ```
 
 
