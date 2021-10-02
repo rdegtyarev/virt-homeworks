@@ -59,7 +59,8 @@ services:
 
 ### Решение  
 #### Подготовка
-Создаем скрипт (положил в отдельный volume '/homework/task2.sql')
+Для удобства создал отдельный volume 'homework' для запуска SQL-запросов в контейнере.
+Создаем [SQL-запрос](https://github.com/rdegtyarev/virt-homeworks/blob/master/06-db-02-sql/postgre/homework/task2.sql)
 ```sql
 CREATE USER "test-admin-user" WITH encrypted password 'adminpassword';
 
@@ -137,8 +138,7 @@ Access method: heap
 
 
 - SQL-запрос для выдачи списка пользователей с правами над таблицами test_db  
-
-Приложен ./homework/task2.1.sql
+Создаем [SQL-запрос](https://github.com/rdegtyarev/virt-homeworks/blob/master/06-db-02-sql/postgre/homework/task2.1.sql)
 ```sql
 SELECT table_catalog, grantee, string_agg(privilege_type, ', ')
 FROM information_schema.role_table_grants 
@@ -200,8 +200,8 @@ docker-compose exec db psql -U test-admin-user test_db -c "\dp"
     - запросы 
     - результаты их выполнения.
 ### Решение
+Создаем [SQL-запрос](https://github.com/rdegtyarev/virt-homeworks/blob/master/06-db-02-sql/postgre/homework/task3.sql)
 
-Создаем скрипт наполнения таблиц (разместил ./homework/task3.sql):
 ```sql
 INSERT INTO orders ("наименование", "цена") 
 VALUES ('Шоколад', 10), 
@@ -221,7 +221,7 @@ VALUES 	('Иванов Иван Иванович', 'USA'),
 > docker-compose exec db psql -U test-admin-user test_db -f /homework/task3.sql
 
 Запрос на количество записей. Использовал функцию, можно и проще, по запросу count(*) по каждой таблице, но так интереснее.
-
+Создаем [SQL-запрос](https://github.com/rdegtyarev/virt-homeworks/blob/master/06-db-02-sql/postgre/homework/task3.1.sql)
 ```sql
 CREATE OR REPLACE FUNCTION count_rows(_tbl regclass, OUT result integer) AS
 $func$
@@ -267,7 +267,8 @@ CREATE FUNCTION
 Подсказк - используйте директиву `UPDATE`.  
 
 ### Решение
-SQL-запрос для связи таблиц  (./postgre/homework/task4.sql)
+Создаем [SQL-запрос](https://github.com/rdegtyarev/virt-homeworks/blob/master/06-db-02-sql/postgre/homework/task4.sql) для связи таблиц.
+
 ```sql
 DO
 $BODY$
@@ -287,8 +288,7 @@ BEGIN
 END;
 $BODY$ language plpgsql
 ```
-SQL-запрос для связи таблиц  (./postgre/homework/task4.sql)  
-
+Создаем [SQL-запрос](https://github.com/rdegtyarev/virt-homeworks/blob/master/06-db-02-sql/postgre/homework/task4.1.sql) для выдачи всех пользователей с заказами.
 ```sql
 select c.фамилия, o.наименование from clients c 
 left join orders o on o.id = c.заказ 
