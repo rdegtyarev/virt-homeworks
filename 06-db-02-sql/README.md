@@ -27,11 +27,6 @@ services:
       - POSTGRES_PASSWORD=password
     ports:
       - 5432:5432
-  adminer:
-    image: adminer
-    restart: always
-    ports:
-      - 8080:8080
 ```
 
 ---
@@ -150,7 +145,15 @@ SELECT table_catalog, grantee, string_agg(privilege_type, ', ')
 FROM information_schema.role_table_grants 
 WHERE table_catalog='test_db' and table_schema = 'public'
 group by table_catalog, grantee
-```  
+```
+```bash
+docker-compose exec db psql -U test-admin-user test_db -f /homework/task2.1.sql
+ table_catalog |     grantee      |                                                          string_agg                                                          
+---------------+------------------+------------------------------------------------------------------------------------------------------------------------------
+ test_db       | test-admin-user  | INSERT, SELECT, UPDATE, DELETE, TRUNCATE, REFERENCES, TRIGGER, INSERT, SELECT, UPDATE, DELETE, TRUNCATE, REFERENCES, TRIGGER
+ test_db       | test-simple-user | INSERT, INSERT, SELECT, UPDATE, DELETE, SELECT, UPDATE, DELETE
+ ```
+
 
 - список пользователей с правами над таблицами test_db
 ```bash
