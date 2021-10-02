@@ -23,6 +23,60 @@
 **Приведите в ответе** количество записей с `price` > 300.
 
 В следующих заданиях мы будем продолжать работу с данным контейнером.
+### Решение  
+
+Найдите команду для выдачи статуса БД и **приведите в ответе** из ее вывода версию сервера БД.  
+```bash
+mysql> \s
+--------------
+mysql  Ver 8.0.26 for Linux on x86_64 (MySQL Community Server - GPL)
+
+Connection id:          17
+Current database:
+Current user:           root@localhost
+SSL:                    Not in use
+Current pager:          stdout
+Using outfile:          ''
+Using delimiter:        ;
+Server version:         8.0.26 MySQL Community Server - GPL
+Protocol version:       10
+Connection:             Localhost via UNIX socket
+Server characterset:    utf8mb4
+Db     characterset:    utf8mb4
+Client characterset:    latin1
+Conn.  characterset:    latin1
+UNIX socket:            /var/run/mysqld/mysqld.sock
+Binary data as:         Hexadecimal
+Uptime:                 21 min 47 sec
+
+Threads: 2  Questions: 65  Slow queries: 0  Opens: 159  Flush tables: 3  Open tables: 77  Queries per second avg: 0.049
+--------------
+```  
+
+Подключитесь к восстановленной БД и получите список таблиц из этой БД.
+```bash
+mysql> SHOW TABLES;
++-------------------+
+| Tables_in_test_db |
++-------------------+
+| orders            |
++-------------------+
+1 row in set (0.00 sec)
+```
+
+**Приведите в ответе** количество записей с `price` > 300.
+```bash
+mysql> select count(*) as count_price_300 from orders where price = 300;
++-----------------+
+| count_price_300 |
++-----------------+
+|               2 |
++-----------------+
+1 row in set (0.00 sec)
+```
+
+
+---
 
 ## Задача 2
 
@@ -39,6 +93,31 @@
     
 Используя таблицу INFORMATION_SCHEMA.USER_ATTRIBUTES получите данные по пользователю `test` и 
 **приведите в ответе к задаче**.
+
+### Решение
+Создание пользователя test с указанными параметрами:  
+```sql
+CREATE USER 'test'@'localhost'
+  IDENTIFIED WITH mysql_native_password BY 'test-pass'
+  PASSWORD EXPIRE INTERVAL 180 DAY
+  FAILED_LOGIN_ATTEMPTS 3
+  ATTRIBUTE '{"fname": "Pretty", "lname": "James"}';
+ALTER USER 'test'@'localhost' WITH MAX_QUERIES_PER_HOUR 100;
+```  
+Предоставьте привелегии пользователю `test` на операции SELECT базы `test_db`.  
+```sql
+GRANT SELECT ON test_db.* to 'test'@'localhost';
+```
+Используя таблицу INFORMATION_SCHEMA.USER_ATTRIBUTES получите данные по пользователю `test`:
+```sql
+mysql> SELECT * FROM INFORMATION_SCHEMA.USER_ATTRIBUTES WHERE USER='test';
++------+-----------+---------------------------------------+
+| USER | HOST      | ATTRIBUTE                             |
++------+-----------+---------------------------------------+
+| test | localhost | {"fname": "Pretty", "lname": "James"} |
++------+-----------+---------------------------------------+
+1 row in set (0.00 sec)
+```
 
 ## Задача 3
 

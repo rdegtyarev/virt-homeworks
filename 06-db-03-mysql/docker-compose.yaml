@@ -1,0 +1,13 @@
+version: '3.2'
+services:
+  db:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+    volumes:
+      - ./my_data:/var/lib/mysql
+      - ./test_data:/test_data
+      - ./homework:/homework
+      
