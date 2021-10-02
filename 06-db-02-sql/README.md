@@ -58,7 +58,7 @@ services:
 - список пользователей с правами над таблицами test_db
 
 ### Решение  
-#### Подготовка
+
 Для удобства создал отдельный volume 'homework' для запуска SQL-запросов в контейнере.
 Создаем [SQL-запрос](https://github.com/rdegtyarev/virt-homeworks/blob/master/06-db-02-sql/postgre/homework/task2.sql)
 ```sql
@@ -90,8 +90,6 @@ CREATE INDEX clients_страна_проживания_idx ON public.clients ("�
 Запускаем
 >docker-compose exec db psql -U postgres -f /homework/task2.sql
 
-#### Ответы
-Приведите:
 - итоговый список БД после выполнения пунктов выше
 ```bash
 docker-compose exec db psql -U postgres -l
@@ -288,6 +286,8 @@ BEGIN
 END;
 $BODY$ language plpgsql
 ```
+>Запускаем docker-compose exec db psql -U test-admin-user test_db -f /homework/task4.sql
+
 Создаем [SQL-запрос](https://github.com/rdegtyarev/virt-homeworks/blob/master/06-db-02-sql/postgre/homework/task4.1.sql) для выдачи всех пользователей с заказами.
 ```sql
 select c.фамилия, o.наименование from clients c 
@@ -312,6 +312,30 @@ docker-compose exec db psql -U test-admin-user test_db -f /homework/task4.1.sql
 
 Приведите получившийся результат и объясните что значат полученные значения.
 
+### Решение
+Создаем [SQL-запрос](https://github.com/rdegtyarev/virt-homeworks/blob/master/06-db-02-sql/postgre/homework/task5.sql) для выполнения EXPLAIN
+```sql
+EXPLAIN SELECT c.фамилия, o.наименование FROM clients c 
+LEFT JOIN orders o ON o.id = c.заказ 
+WHERE c.заказ IS NOT NULL
+```
+Выполняем
+```bash
+docker-compose exec db psql -U test-admin-user test_db -f /homework/task5.sql
+                               QUERY PLAN                                
+-------------------------------------------------------------------------
+ Hash Left Join  (cost=13.15..33.41 rows=806 width=548)
+   Hash Cond: (c."заказ" = o.id)
+   ->  Seq Scan on clients c  (cost=0.00..18.10 rows=806 width=36)
+         Filter: ("заказ" IS NOT NULL)
+   ->  Hash  (cost=11.40..11.40 rows=140 width=520)
+         ->  Seq Scan on orders o  (cost=0.00..11.40 rows=140 width=520)
+(6 rows)
+```
+Отображена оценка стоимости запроса с учетом cвящи left join.
+
+---
+
 ## Задача 6
 
 Создайте бэкап БД test_db и поместите его в volume, предназначенный для бэкапов (см. Задачу 1).
@@ -324,4 +348,16 @@ docker-compose exec db psql -U test-admin-user test_db -f /homework/task4.1.sql
 
 Приведите список операций, который вы применяли для бэкапа данных и восстановления. 
 
+### Решение
+Сделал полный бэкап
+> docker-compose exec db pg_dumpall -U postgres  > ./backup/backup
+Восстановление в другом контейнере
+> docker-compose exec backup_db psql -U postgres -f ./backup/backup
+
+Если нужно забекапить и восстановить одну таблицу, можно воспользоваться командой pg_dump, но понадобится предварительно в новом контейнере создать пустую БД и соотвествующих пользователей.
 ---
+
+## Порядок выполнения скриптов
+- docker-compose exec db psql -U postgres -f /homework/task2.sql (создание ДБ и таблиц)
+- docker-compose exec db psql -U test-admin-user test_db -f /homework/task3.sql (наполение таблиц, в целевой дб и под пользователем test-admin-user)
+- docker-compose exec db psql -U test-admin-user test_db -f /homework/task4.sql (создание связей)
