@@ -200,7 +200,7 @@ docker-compose exec db psql -U test-admin-user test_db -c "\dp"
     - запросы 
     - результаты их выполнения.
 ### Решение
-#### Подготовка
+
 Создаем скрипт наполнения таблиц (разместил ./homework/task3.sql):
 ```sql
 INSERT INTO orders ("наименование", "цена") 
