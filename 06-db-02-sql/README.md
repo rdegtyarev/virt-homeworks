@@ -143,8 +143,10 @@ FROM information_schema.role_table_grants
 WHERE table_catalog='test_db' and table_schema = 'public'
 group by table_catalog, grantee
 ```
+Запускаем
+>docker-compose exec db psql -U test-admin-user test_db -f /homework/task2.1.sql
+
 ```bash
-docker-compose exec db psql -U test-admin-user test_db -f /homework/task2.1.sql
  table_catalog |     grantee      |                                                          string_agg                                                          
 ---------------+------------------+------------------------------------------------------------------------------------------------------------------------------
  test_db       | test-admin-user  | INSERT, SELECT, UPDATE, DELETE, TRUNCATE, REFERENCES, TRIGGER, INSERT, SELECT, UPDATE, DELETE, TRUNCATE, REFERENCES, TRIGGER
@@ -153,8 +155,8 @@ docker-compose exec db psql -U test-admin-user test_db -f /homework/task2.1.sql
 
 
 - список пользователей с правами над таблицами test_db
+> docker-compose exec db psql -U test-admin-user test_db -c "\dp"
 ```bash
-docker-compose exec db psql -U test-admin-user test_db -c "\dp"
                                                 Access privileges
  Schema |      Name      |   Type   |              Access privileges              | Column privileges | Policies 
 --------+----------------+----------+---------------------------------------------+-------------------+----------
