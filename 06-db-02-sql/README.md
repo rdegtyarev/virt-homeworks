@@ -76,20 +76,19 @@ CREATE TABLE orders (
 	PRIMARY KEY (id)
 );
 
-CREATE TABLE clients (
-	"id" serial NOT NULL,
-	"фамилия" varchar NULL,
+CREATE TABLE public.clients (
+	id serial not NULL,
+	фамилия varchar NULL,
 	"страна проживания" varchar NULL,
-	CONSTRAINT "заказ" FOREIGN KEY (id) REFERENCES orders(id)
+	заказ integer NULL,
+	FOREIGN KEY (заказ) REFERENCES public.orders(id)
 );
-CREATE INDEX страна_проживания_idx ON clients ("страна проживания");
+CREATE INDEX clients_страна_проживания_idx ON public.clients ("страна проживания");
 
 ```
-Выполняем скрипт: 
+Запускаем
+>docker-compose exec db psql -U postgres -f /homework/task2.sql
 
-```bash
-docker-compose exec db psql -U postgres -f /homework/task2.sql
-```
 #### Ответы
 Приведите:
 - итоговый список БД после выполнения пунктов выше
@@ -200,6 +199,54 @@ docker-compose exec db psql -U test-admin-user test_db -c "\dp"
 - приведите в ответе:
     - запросы 
     - результаты их выполнения.
+### Решение
+#### Подготовка
+Создаем скрипт наполнения таблиц (разместил ./homework/task3.sql):
+```sql
+INSERT INTO orders ("наименование", "цена") 
+VALUES ('Шоколад', 10), 
+	('Принтер', 3000), 
+	('Книга', 500), 
+	('Монитор', 7000), 
+	('Гитара', 4000);
+
+INSERT INTO clients ("фамилия", "страна проживания")
+VALUES 	('Иванов Иван Иванович', 'USA'), 
+	('Петров Петр Петрович', 'Canada'), 
+	('Иоганн Себастьян Бах', 'Japan'), 
+	('Ронни Джеймс Дио', 'Russia'), 
+	('Ritchie Blackmore', 'Russia');
+```  
+Запускаем
+> docker-compose exec db psql -U test-admin-user test_db -f /homework/task3.sql
+
+Запрос на количество записей. Использовал функцию, можно и проще, по запросу count(*) по каждой таблице, но так интереснее.
+
+```sql
+CREATE OR REPLACE FUNCTION count_rows(_tbl regclass, OUT result integer) AS
+$func$
+BEGIN
+   EXECUTE format('SELECT count(*) FROM %s', _tbl)
+   INTO result;
+END
+$func$  LANGUAGE plpgsql;  
+
+select table_name as "Имя таблицы", count_rows(table_name::text) AS "Количество строк" from information_schema.tables
+where table_schema = 'public'
+```
+
+Результат выполнения:  
+```bash
+docker-compose exec db psql -U test-admin-user test_db -f /homework/task3.1.sql
+CREATE FUNCTION
+ Имя таблицы | Количество строк 
+-------------+------------------
+ orders      |                5
+ clients     |                5
+(2 rows)
+```
+
+---
 
 ## Задача 4
 
