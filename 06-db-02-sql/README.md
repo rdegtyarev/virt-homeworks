@@ -64,7 +64,7 @@ services:
 
 ### Решение  
 #### Подготовка
-Формируем скрипт (положил в отдельный volume '/homework')
+Создаем скрипт (положил в отдельный volume '/homework/task2.sql')
 ```sql
 CREATE USER "test-admin-user" WITH encrypted password 'adminpassword';
 
@@ -142,10 +142,30 @@ Access method: heap
 ```
 
 
-- SQL-запрос для выдачи списка пользователей с правами над таблицами test_db
+- SQL-запрос для выдачи списка пользователей с правами над таблицами test_db  
+
+Приложен ./homework/task2.1.sql
+```sql
+SELECT table_catalog, grantee, string_agg(privilege_type, ', ')
+FROM information_schema.role_table_grants 
+WHERE table_catalog='test_db' and table_schema = 'public'
+group by table_catalog, grantee
+```  
 
 - список пользователей с правами над таблицами test_db
-
+```bash
+docker-compose exec db psql -U test-admin-user test_db -c "\dp"
+                                                Access privileges
+ Schema |      Name      |   Type   |              Access privileges              | Column privileges | Policies 
+--------+----------------+----------+---------------------------------------------+-------------------+----------
+ public | clients        | table    | "test-admin-user"=arwdDxt/"test-admin-user"+|                   | 
+        |                |          | "test-simple-user"=arwd/"test-admin-user"   |                   | 
+ public | clients_id_seq | sequence |                                             |                   | 
+ public | orders         | table    | "test-admin-user"=arwdDxt/"test-admin-user"+|                   | 
+        |                |          | "test-simple-user"=arwd/"test-admin-user"   |                   | 
+ public | orders_id_seq  | sequence |                                             |                   | 
+(4 rows)
+```
 ---
 
 ## Задача 3
