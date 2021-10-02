@@ -264,7 +264,46 @@ CREATE FUNCTION
 
 Приведите SQL-запрос для выдачи всех пользователей, которые совершили заказ, а также вывод данного запроса.
  
-Подсказк - используйте директиву `UPDATE`.
+Подсказк - используйте директиву `UPDATE`.  
+
+### Решение
+SQL-запрос для связи таблиц  (./postgre/homework/task4.sql)
+```sql
+DO
+$BODY$
+DECLARE
+    omgjson json := '[{"fio": "Иванов Иван Иванович", "order": "Книга"}, 
+{"fio": "Петров Петр Петрович", "order": "Монитор"}, 
+{"fio": "Иоганн Себастьян Бах", "order": "Гитара"}]';
+    i json;
+BEGIN
+  FOR i IN SELECT * FROM json_array_elements(omgjson)
+  loop
+  	update clients 
+	set заказ = orders_tbl.id
+	from (select id from orders where наименование = i->>'order') as orders_tbl
+	where фамилия = i->>'fio';
+  END LOOP;
+END;
+$BODY$ language plpgsql
+```
+SQL-запрос для связи таблиц  (./postgre/homework/task4.sql)  
+
+```sql
+select c.фамилия, o.наименование from clients c 
+left join orders o on o.id = c.заказ 
+where c.заказ is not null
+```
+```bash
+docker-compose exec db psql -U test-admin-user test_db -f /homework/task4.1.sql
+       фамилия        | наименование 
+----------------------+--------------
+ Иванов Иван Иванович | Книга
+ Петров Петр Петрович | Монитор
+ Иоганн Себастьян Бах | Гитара
+(3 rows)
+```
+
 
 ## Задача 5
 
