@@ -91,9 +91,8 @@ CREATE INDEX clients_страна_проживания_idx ON public.clients ("�
 >docker-compose exec db psql -U postgres -f /homework/task2.sql
 
 - итоговый список БД после выполнения пунктов выше
+> docker-compose exec db psql -U postgres -l
 ```bash
-docker-compose exec db psql -U postgres -l
-
                                     List of databases
    Name    |      Owner      | Encoding |  Collate   |   Ctype    |   Access privileges   
 -----------+-----------------+----------+------------+------------+-----------------------
@@ -106,9 +105,8 @@ docker-compose exec db psql -U postgres -l
 (4 rows)
 ```
 - описание таблиц (describe)  
-
+> docker-compose exec db psql -U test-admin-user test_db -c "\d+ orders" -c "\d+ clients"
 ```bash
-docker-compose exec db psql -U test-admin-user test_db -c "\d+ orders" -c "\d+ clients"
                                                            Table "public.orders"
     Column    |          Type          | Collation | Nullable |              Default               | Storage  | Stats target | Description 
 --------------+------------------------+-----------+----------+------------------------------------+----------+--------------+-------------
@@ -143,7 +141,7 @@ FROM information_schema.role_table_grants
 WHERE table_catalog='test_db' and table_schema = 'public'
 group by table_catalog, grantee
 ```
-Запускаем
+Запускаем:
 >docker-compose exec db psql -U test-admin-user test_db -f /homework/task2.1.sql
 
 ```bash
@@ -234,10 +232,9 @@ $func$  LANGUAGE plpgsql;
 select table_name as "Имя таблицы", count_rows(table_name::text) AS "Количество строк" from information_schema.tables
 where table_schema = 'public'
 ```
-
-Результат выполнения:  
+Запускаем
+> docker-compose exec db psql -U test-admin-user test_db -f /homework/task3.1.sql
 ```bash
-docker-compose exec db psql -U test-admin-user test_db -f /homework/task3.1.sql
 CREATE FUNCTION
  Имя таблицы | Количество строк 
 -------------+------------------
@@ -288,7 +285,8 @@ BEGIN
 END;
 $BODY$ language plpgsql
 ```
->Запускаем docker-compose exec db psql -U test-admin-user test_db -f /homework/task4.sql
+Запускаем:
+>docker-compose exec db psql -U test-admin-user test_db -f /homework/task4.sql
 
 Создаем [SQL-запрос](https://github.com/rdegtyarev/virt-homeworks/blob/master/06-db-02-sql/postgre/homework/task4.1.sql) для выдачи всех пользователей с заказами.
 ```sql
@@ -296,8 +294,9 @@ select c.фамилия, o.наименование from clients c
 left join orders o on o.id = c.заказ 
 where c.заказ is not null
 ```
+Запускаем:
+>docker-compose exec db psql -U test-admin-user test_db -f /homework/task4.1.sql
 ```bash
-docker-compose exec db psql -U test-admin-user test_db -f /homework/task4.1.sql
        фамилия        | наименование 
 ----------------------+--------------
  Иванов Иван Иванович | Книга
@@ -321,9 +320,9 @@ EXPLAIN SELECT c.фамилия, o.наименование FROM clients c
 LEFT JOIN orders o ON o.id = c.заказ 
 WHERE c.заказ IS NOT NULL
 ```
-Выполняем
+Запускаем:
+> docker-compose exec db psql -U test-admin-user test_db -f /homework/task5.sql
 ```bash
-docker-compose exec db psql -U test-admin-user test_db -f /homework/task5.sql
                                QUERY PLAN                                
 -------------------------------------------------------------------------
  Hash Left Join  (cost=13.15..33.41 rows=806 width=548)
