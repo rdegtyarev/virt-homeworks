@@ -175,7 +175,7 @@ Records: 5  Duplicates: 0  Warnings: 0
 
 ### Решение
 
-Полный файл [my.cnf]
+Полный файл [my.cnf](https://github.com/rdegtyarev/virt-homeworks/blob/master/06-db-03-mysql/homework/my.cnf).  
 Фрагмент с настройками:
 ```
 innodb_flush_log_at_trx_commit = 2;
