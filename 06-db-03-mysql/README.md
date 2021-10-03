@@ -118,6 +118,7 @@ mysql> SELECT * FROM INFORMATION_SCHEMA.USER_ATTRIBUTES WHERE USER='test';
 +------+-----------+---------------------------------------+
 1 row in set (0.00 sec)
 ```
+---
 
 ## Задача 3
 
@@ -176,18 +177,12 @@ Records: 5  Duplicates: 0  Warnings: 0
 
 Полный файл [my.cnf]
 Фрагмент с настройками:
-'''
+```
 innodb_flush_log_at_trx_commit = 2;
 innodb_file_per_table = 1;
 innodb_log_buffer_size = 1M;
 innodb_buffer_pool_size = 2457M;
 innodb_log_file_size = 100M;
-'''
-
----
-
-### Как оформить ДЗ?
-
-Выполненное домашнее задание пришлите ссылкой на .md-файл в вашем репозитории.
+```
 
 ---
