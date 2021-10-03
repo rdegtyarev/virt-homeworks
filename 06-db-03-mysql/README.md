@@ -130,6 +130,35 @@ mysql> SELECT * FROM INFORMATION_SCHEMA.USER_ATTRIBUTES WHERE USER='test';
 - на `MyISAM`
 - на `InnoDB`
 
+
+ ### Решение
+ Исследуйте, какой `engine` используется в таблице БД `test_db` и **приведите в ответе**.  
+ В таблице используется InnoDB.
+>mysql> SHOW TABLE STATUS FROM `test_db`;
+```bash
++--------+--------+---------+------------+------+----------------+-------------+-----------------+--------------+-----------+----------------+---------------------+-------------+------------+--------------------+----------+----------------+---------+
+| Name   | Engine | Version | Row_format | Rows | Avg_row_length | Data_length | Max_data_length | Index_length | Data_free | Auto_increment | Create_time         | Update_time | Check_time | Collation          | Checksum | Create_options | Comment |
++--------+--------+---------+------------+------+----------------+-------------+-----------------+--------------+-----------+----------------+---------------------+-------------+------------+--------------------+----------+----------------+---------+
+| orders | InnoDB |      10 | Dynamic    |    5 |           3276 |       16384 |               0 |            0 |         0 |              6 | 2021-10-02 17:25:06 | NULL        | NULL       | utf8mb4_0900_ai_ci |     NULL |                |         |
++--------+--------+---------+------------+------+----------------+-------------+-----------------+--------------+-----------+----------------+---------------------+-------------+------------+--------------------+----------+----------------+---------+
+1 row in set (0.01 sec)
+``` 
+Измените `engine` и **приведите время выполнения и запрос на изменения из профайлера в ответе**:
+- на `MyISAM`  
+```bash
+mysql> ALTER TABLE orders ENGINE = MyISAM;
+Query OK, 5 rows affected (0.09 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+```  
+- на `InnoDB`
+```bash
+mysql> ALTER TABLE orders ENGINE = InnoDB;
+Query OK, 5 rows affected (0.05 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+```
+
+---
+
 ## Задача 4 
 
 Изучите файл `my.cnf` в директории /etc/mysql.
@@ -142,6 +171,18 @@ mysql> SELECT * FROM INFORMATION_SCHEMA.USER_ATTRIBUTES WHERE USER='test';
 - Размер файла логов операций 100 Мб
 
 Приведите в ответе измененный файл `my.cnf`.
+
+### Решение
+
+Полный файл [my.cnf]
+Фрагмент с настройками:
+'''
+innodb_flush_log_at_trx_commit = 2;
+innodb_file_per_table = 1;
+innodb_log_buffer_size = 1M;
+innodb_buffer_pool_size = 2457M;
+innodb_log_file_size = 100M;
+'''
 
 ---
 
