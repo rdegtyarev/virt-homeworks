@@ -65,8 +65,9 @@ mysql> SHOW TABLES;
 ```
 
 **Приведите в ответе** количество записей с `price` > 300.
+UPD: Доработал, исправил ошибку = на <
 ```bash
-mysql> select count(*) as count_price_300 from orders where price = 300;
+mysql> select count(*) as count_price_300 from orders where price > 300;
 +-----------------+
 | count_price_300 |
 +-----------------+
