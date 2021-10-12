@@ -36,4 +36,4 @@ ehthumbs.db
 Thumbs.db
 **/pg-data
 **/my_data
-**.vagrant
+**/.vagrant
