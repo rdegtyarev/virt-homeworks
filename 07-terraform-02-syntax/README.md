@@ -33,8 +33,8 @@ aws configure list
       Name                    Value             Type    Location
       ----                    -----             ----    --------
    profile                <not set>             None    None
-access_key     ****************DXWZ              env    
-secret_key     ****************3dwA              env    
+access_key     ********************              env    
+secret_key     ********************              env    
     region                <not set>             None    None
 ```
 ---
