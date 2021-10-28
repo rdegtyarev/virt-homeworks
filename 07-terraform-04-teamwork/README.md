@@ -57,10 +57,7 @@
 1. Официальный модуль: ec2-instance  
 https://registry.terraform.io/modules/terraform-aws-modules/ec2-instance/aws/latest  
 2. Модуль использует `aws_instance`, значительных преимуществ использования модуля перед использованием непосредственно`aws_instance` не вижу. Возможно модуль сделает более читаемым код при создании инстансов с большим количеством параметров.
-3. Пример файла main.tf с использованием модуля [здесь]()
-```
-
-
+3. Пример файла main.tf с использованием модуля [здесь](https://github.com/rdegtyarev/virt-homeworks/tree/master/07-terraform-04-teamwork/terraform)
 ---
 
 
