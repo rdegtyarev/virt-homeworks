@@ -37,9 +37,9 @@
 В качестве результата приложите ссылку на файлы `server.yaml` и `atlantis.yaml`.
 
 ### Решение
-[server.yaml](https://github.com/rdegtyarev/virt-homeworks/blob/master/07-terraform-04-teamwork/atlantis/server.yaml)  
+>[server.yaml](https://github.com/rdegtyarev/virt-homeworks/blob/master/07-terraform-04-teamwork/atlantis/server.yaml)  
 
-[atlantis.yaml](https://github.com/rdegtyarev/virt-homeworks/blob/master/07-terraform-04-teamwork/atlantis/atlantis.yaml)
+>[atlantis.yaml](https://github.com/rdegtyarev/virt-homeworks/blob/master/07-terraform-04-teamwork/atlantis/atlantis.yaml)
 ---
 
 ## Задача 3. Знакомство с каталогом модулей. 
