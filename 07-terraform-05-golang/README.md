@@ -44,9 +44,9 @@
 В виде решения ссылку на код или сам код.   
 ### Решение 
 
-- [Задача 1](./task-2/task3.go)
-- [Задача 2](./task-2/task3.go)
-- [Задача 3](./task-2/task3.go) 
+- [Задача 1](https://github.com/rdegtyarev/virt-homeworks/blob/master/07-terraform-05-golang/task-3/t1/t1.go)
+- [Задача 2](https://github.com/rdegtyarev/virt-homeworks/blob/master/07-terraform-05-golang/task-3/t2/t2.go)
+- [Задача 3](https://github.com/rdegtyarev/virt-homeworks/blob/master/07-terraform-05-golang/task-3/t2/t2.go) 
   
 ---
 ## Задача 4. Протестировать код (не обязательно).
@@ -55,9 +55,9 @@
 
 ### Решение 
 
-- [Задача 1](./task-2/task3.go)
-- [Задача 2](./task-2/task3.go)
-- [Задача 3](./task-2/task3.go) 
+- [Задача 1](https://github.com/rdegtyarev/virt-homeworks/blob/master/07-terraform-05-golang/task-3/t1/t1_test.go)
+- [Задача 2](https://github.com/rdegtyarev/virt-homeworks/blob/master/07-terraform-05-golang/task-3/t2/t2_test.go)
+- [Задача 3](https://github.com/rdegtyarev/virt-homeworks/blob/master/07-terraform-05-golang/task-3/t3/t3_test.go) 
   
 ---
 ---
