@@ -46,7 +46,7 @@
 
 - [Задача 1](https://github.com/rdegtyarev/virt-homeworks/blob/master/07-terraform-05-golang/task-3/t1/t1.go)
 - [Задача 2](https://github.com/rdegtyarev/virt-homeworks/blob/master/07-terraform-05-golang/task-3/t2/t2.go)
-- [Задача 3](https://github.com/rdegtyarev/virt-homeworks/blob/master/07-terraform-05-golang/task-3/t2/t2.go) 
+- [Задача 3](https://github.com/rdegtyarev/virt-homeworks/blob/master/07-terraform-05-golang/task-3/t3/t3.go) 
   
 ---
 ## Задача 4. Протестировать код (не обязательно).
