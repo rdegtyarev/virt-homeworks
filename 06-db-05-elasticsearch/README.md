@@ -65,12 +65,10 @@ USER elastic
 CMD ["./bin/elasticsearch"]
 ```  
 
-- ссылку на образ в репозитории dockerhub
+- ссылку на образ в репозитории dockerhub  
 https://hub.docker.com/repository/docker/rdegtyarev/netology-hw-6.5  
 
 - ответ `elasticsearch` на запрос пути `/` в json виде  
-
-curl http://localhost:9200/  
 
 ```json
 {
