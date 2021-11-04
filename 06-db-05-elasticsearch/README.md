@@ -120,6 +120,44 @@ https://hub.docker.com/repository/docker/rdegtyarev/netology-hw-6.5
 При проектировании кластера elasticsearch нужно корректно рассчитывать количество реплик и шард,
 иначе возможна потеря данных индексов, вплоть до полной, при деградации системы.
 
+### Решение  
+
+>Получите список индексов и их статусов, используя API и **приведите в ответе** на задание.
+```
+green  open .geoip_databases b20xl_zHTb2wJr4MM617fQ 1 0 41 0 39.6mb 39.6mb
+green  open ind-1            5EdkQ_MKQgq3b4RDQXL65Q 1 0  0 0   208b   208b
+yellow open ind-3            a-MPHloPQ6OLRzqVMpc3Lw 3 2  0 0   624b   624b
+yellow open ind-2            nXo7QMPLQtemhfSZe-q4rw 2 1  0 0   416b   416b
+```  
+
+>Получите состояние кластера `elasticsearch`, используя API.
+```json
+{
+    "cluster_name": "netology",
+    "status": "yellow",
+    "timed_out": false,
+    "number_of_nodes": 1,
+    "number_of_data_nodes": 1,
+    "active_primary_shards": 7,
+    "active_shards": 7,
+    "relocating_shards": 0,
+    "initializing_shards": 0,
+    "unassigned_shards": 8,
+    "delayed_unassigned_shards": 0,
+    "number_of_pending_tasks": 0,
+    "number_of_in_flight_fetch": 0,
+    "task_max_waiting_in_queue_millis": 0,
+    "active_shards_percent_as_number": 46.666666666666664
+}
+```  
+
+>Как вы думаете, почему часть индексов и кластер находится в состоянии yellow?  
+Потому что кластер на одной ноде, индексы для которых указано количество реплик не реплицировались на другие ноды.
+
+>Удалите все индексы.
+DELETE http://localhost:9200/_all
+---
+
 ## Задача 3
 
 В данном задании вы научитесь:
@@ -149,11 +187,5 @@ https://hub.docker.com/repository/docker/rdegtyarev/netology-hw-6.5
 
 Подсказки:
 - возможно вам понадобится доработать `elasticsearch.yml` в части директивы `path.repo` и перезапустить `elasticsearch`
-
----
-
-### Как cдавать задание
-
-Выполненное домашнее задание пришлите ссылкой на .md-файл в вашем репозитории.
 
 ---
