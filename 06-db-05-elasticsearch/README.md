@@ -121,16 +121,21 @@ https://hub.docker.com/repository/docker/rdegtyarev/netology-hw-6.5
 иначе возможна потеря данных индексов, вплоть до полной, при деградации системы.
 
 ### Решение  
+Для удобства составления запросов использую Postman  
 
->Получите список индексов и их статусов, используя API и **приведите в ответе** на задание.
+>Получите список индексов и их статусов, используя API и **приведите в ответе** на задание.  
+
+GET http://localhost:9200/_cat/indices/  
 ```
-green  open .geoip_databases b20xl_zHTb2wJr4MM617fQ 1 0 41 0 39.6mb 39.6mb
 green  open ind-1            5EdkQ_MKQgq3b4RDQXL65Q 1 0  0 0   208b   208b
 yellow open ind-3            a-MPHloPQ6OLRzqVMpc3Lw 3 2  0 0   624b   624b
 yellow open ind-2            nXo7QMPLQtemhfSZe-q4rw 2 1  0 0   416b   416b
 ```  
 
->Получите состояние кластера `elasticsearch`, используя API.
+>Получите состояние кластера `elasticsearch`, используя API.   
+
+GET http://localhost:9200/_cluster/health  
+
 ```json
 {
     "cluster_name": "netology",
@@ -152,10 +157,13 @@ yellow open ind-2            nXo7QMPLQtemhfSZe-q4rw 2 1  0 0   416b   416b
 ```  
 
 >Как вы думаете, почему часть индексов и кластер находится в состоянии yellow?  
+
 Потому что кластер на одной ноде, индексы для которых указано количество реплик не реплицировались на другие ноды.
 
->Удалите все индексы.
-DELETE http://localhost:9200/_all
+>Удалите все индексы.  
+
+DELETE http://localhost:9200/_all  
+
 ---
 
 ## Задача 3
@@ -188,4 +196,52 @@ DELETE http://localhost:9200/_all
 Подсказки:
 - возможно вам понадобится доработать `elasticsearch.yml` в части директивы `path.repo` и перезапустить `elasticsearch`
 
+### Решение
+>**Приведите в ответе** запрос API и результат вызова API для создания репозитория.  
+
+Запрос:
+```
+PUT http://localhost:9200/_snapshot/netology_backup
+{
+  "type": "fs",
+  "settings": {
+    "location": "/opt/elasticsearch-7.15.1/snapshots"
+  }
+}
+```  
+
+Ответ:
+
+```json
+{
+    "acknowledged": true
+}
+```  
+>Создайте индекс `test` с 0 реплик и 1 шардом и **приведите в ответе** список индексов.  
+
+http://localhost:9200/_cat/indices/  
+```
+green open test1 ZpzCwbj_SpOBLSkyoTBaUQ 1 0 0 0 208b 208b
+```
+>**Приведите в ответе** список файлов в директории со `snapshot`ами.  
+
+PUT http://localhost:9200/_snapshot/netology_backup/snapshot_1?wait_for_completion=true  
+
+```bash
+sh-4.2$ ls
+index-0  index.latest  indices  meta-iCcCw2gWR-i6kCW2ag2lSg.dat  snap-iCcCw2gWR-i6kCW2ag2lSg.dat
+```  
+>Удалите индекс `test` и создайте индекс `test-2`. **Приведите в ответе** список индексов. 
+```
+green open test2 PJ_0EhbPSoyuKNiCetY6VQ 1 0 0 0 208b 208b
+```  
+>**Приведите в ответе** запрос к API восстановления и итоговый список индексов.  
+
+POST http://localhost:9200/_snapshot/netology_backup/snapshot_1/_restore  
+
+GET http://localhost:9200/_cat/indices/  
+```
+green open test2 PJ_0EhbPSoyuKNiCetY6VQ 1 0 0 0 208b 208b
+green open test1 vCOSSX8uTxODTApso4wzUw 1 0 0 0 208b 208b
+```
 ---

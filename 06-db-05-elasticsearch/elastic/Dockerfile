@@ -21,7 +21,7 @@ EXPOSE ${transport_port}
 WORKDIR /opt/elasticsearch-7.15.1
 COPY ./config/elasticsearch.yml ./config/
 COPY ./config/jvm.options ./config/
-
+RUN mkdir snapshots
 RUN chown -R elastic:elastic /opt/elasticsearch-7.15.1 /var/lib
 
 USER elastic
